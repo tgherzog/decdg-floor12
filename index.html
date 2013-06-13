@@ -103,6 +103,7 @@ var config = {
 
 var slides = [];
 var timer = null;
+var paused = false;
 
 $(document).ready(function() {
 
@@ -114,6 +115,9 @@ $(document).ready(function() {
 
   if( qs.get('test') == 1 )
     $('body').addClass('test');
+
+  // hidden feature: click the chart title to pause/restart the animation
+  $('div.chart-title h1').click(function() { paused = ! paused; });
 
   $.getJSON('mdg-data.json', function(data) {
 
@@ -143,6 +147,8 @@ $(document).ready(function() {
 
 function nextSlide() {
 
+  if( paused ) return;
+
   if( timer ) clearInterval(timer); 
 
   if( ++config.index == slides.length ) config.index = 0;
@@ -165,7 +171,7 @@ function nextMDG() {
   drawChart(c, i.region);
 
   if( i.region == 0 ) {
-    $('div.nav table.series tr').removeClass('active').filter('.' + c.klass).addClass('active');
+    $('div.nav table tr.series').removeClass('active').filter('.' + c.klass).addClass('active');
 	$('h1').text(c.title);
 	$('h2').text(c.subTitle);
 	$('div.goal').text(c.mdg);
@@ -208,7 +214,7 @@ function nextMDG() {
     $('div.narrative th.end').text(cYears[2]);
   }
 
-  $('div.nav table.regions tr').removeClass('active').filter('.' + config.regions[i.region]).addClass('active');
+  $('div.nav table tr.region').removeClass('active').filter('.' + config.regions[i.region]).addClass('active');
   $('div.narrative table.values tr').removeClass('active').filter('.' + config.regions[i.region]).addClass('active');
 }
 
@@ -245,14 +251,15 @@ function drawChart(stage, rgn) {
 		  color: target[i].color ? target[i].color : baseColor
 		});
 
+	var axisFontSize = parseInt($('#palette').css('font-size').replace('px', ''));
     var chart = $.plot('#chart', series, {
 	  series: {
 	    lines: { show: true, lineWidth: config.chart.lineWidth },
 		color: config.chart.lineColor,
 		shadowSize: 0,
 	  },
-	  xaxis: { min: 1990, max: stage.lastYear, tickLength: 0 },
-	  yaxis: { min: 0, tickLength: 0 },
+	  xaxis: { min: 1990, max: stage.lastYear, tickLength: 0, show: true, tickColor: 'rgba(0,0,0,0)', font: { size: axisFontSize }  },
+	  yaxis: { min: 0, tickLength: 0, tickColor: 'rgba(0,0,0,0)', font: { size: axisFontSize  }  },
 	  legend: { show: false },
 	  grid: {
 		minBorderMargin: 25,
@@ -305,25 +312,25 @@ function drawChart(stage, rgn) {
 
 <div class="nav">
 
-<table class="regions">
-<tr class="world"><td>Developing World</td></tr>
-<tr class="eap"><td>East Asia &amp; Pacific</td></tr>
-<tr class="eca"><td>Europe &amp; Central Asia</td></tr>
-<tr class="lac"><td>Latin America &amp; Caribbean</td></tr>
-<tr class="mena"><td>Middle East &amp; North Africa</td></tr>
-<tr class="sa"><td>South Asia</td></tr>
-<tr class="ssa"><td>Sub-Saharan Africa</td></tr>
+<table>
+<tr class="region world"><td>Developing World</td></tr>
+<tr class="region eap"><td>East Asia &amp; Pacific</td></tr>
+<tr class="region eca"><td>Europe &amp; Central Asia</td></tr>
+<tr class="region lac"><td>Latin America &amp; Caribbean</td></tr>
+<tr class="region mena"><td>Middle East &amp; North Africa</td></tr>
+<tr class="region sa"><td>South Asia</td></tr>
+<tr class="region ssa"><td>Sub-Saharan Africa</td></tr>
 </table>
 
-<table class="series">
-<tr class="expov"><td>Extreme Poverty</td></tr>
-<tr class="malnu"><td>Child Malnutrition</td></tr>
-<tr class="predu"><td>Primary Education</td></tr>
-<tr class="imort"><td>Infant Mortality</td></tr>
-<tr class="immun"><td>Immunization</td></tr>
-<tr class="mmort"><td>Maternal Mortality</td></tr>
-<tr class="drink"><td>Safe Drinking Water</td></tr>
-<tr class="sanit"><td>Improved Sanitation</td></tr>
+<table>
+<tr class="series expov"><td>Extreme Poverty</td></tr>
+<tr class="series malnu"><td>Child Malnutrition</td></tr>
+<tr class="series predu"><td>Primary Education</td></tr>
+<tr class="series imort"><td>Infant Mortality</td></tr>
+<tr class="series immun"><td>Immunization</td></tr>
+<tr class="series mmort"><td>Maternal Mortality</td></tr>
+<tr class="series drink"><td>Safe Drinking Water</td></tr>
+<tr class="series sanit"><td>Improved Sanitation</td></tr>
 </table>
 </div>
 

@@ -1,5 +1,5 @@
 
-/* source CSS file: use lesc pre-processor */
+/* source CSS file: use lessc pre-processor */
 @text-color: #333;
 @dim-color: #666;
 @eap-color: #40b9d0;
@@ -9,25 +9,20 @@
 @sa-color: #6282ae;
 @ssa-color: #3aae5b;
 @world-color: (@text-color);
+@border-color: #dfdfdf;
+@border-radius: 5px;
+@table-cell-shade: #f6f6f6;
 
 body {
   margin: 0;
-  font-family: Arial,sans-serif;
-  font-size: 16pt;
+  font-family: Tahoma,sans-serif;
+  font-size: 13px;
   color: @text-color;
 }
 
 h1, h2 {
   margin: 0;
-  font-family: Georgia,serif;
-}
-
-h1 {
-  font-size: 24pt;
-}
-
-h2 {
-  font-size: 18pt;
+  font-size: 14px;
 }
 
 div.wrapper {
@@ -55,16 +50,14 @@ div.target-2030 #chart {
 div.chart-title {
   position: absolute;
   width: 725px;
-  left: 2px;
-  top: 0;
+  left: 32px;
+  top: 22px;
 }
 
 div.source {
   position: absolute;
   bottom: 5px;
   left: 2px;
-  font-family: Georgia, serif;
-  font-size: 11pt;
   color: @dim-color;
 }
 
@@ -73,10 +66,7 @@ div.nav {
   left: 765px;
   top: 10px;
   padding: 0 10px;
-  font-size: 16pt;
-  color: #888;
-  border-left: 1px solid @dim-color;
-  border-right: 1px solid @dim-color;
+  color: #333;
 }
 
 div.target-2030 div.narrative,
@@ -88,57 +78,73 @@ div.mdg div.top-message {
   display: none;
 }
 
-div.nav table {
-  margin-bottom: 20px;
-}
-
 div.nav td {
-  padding: 1px 0.75em;
-  width: 280px;
+  padding: 1px 1em;
+  width: 278px;
+  height: 26px;
+  border: 1px solid transparent;
 }
 
-div.nav tr.world {
+div.nav tr.world td {
   color: @world-color;
-}
-
-div.nav tr.active {
+  /* font-size: 14px; */
   font-weight: bold;
 }
 
-div.nav tr.active.eap  {
-  color: @eap-color;
+div.nav tr.active td {
+  font-weight: bold;
+  border-radius: @border-radius;
+  -webkit-border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
 }
 
-div.nav tr.active.eca  {
-  color: @eca-color;
+div.nav tr.series.active td {
+  border: 1px solid @border-color;
 }
 
-div.nav tr.active.lac  {
-  color: @lac-color;
+div.nav tr.region.active td {
+  color: white;
 }
 
-div.nav tr.active.mena  {
-  color: @mena-color;
+div.nav tr.active.world td {
+  background: @world-color;
 }
 
-div.nav tr.active.sa  {
-  color: @sa-color;
+div.nav tr.active.eap td {
+  background: @eap-color;
 }
 
-div.nav tr.active.ssa  {
-  color: @ssa-color;
+div.nav tr.active.eca td {
+  color: @text-color;
+  background: @eca-color;
 }
 
-div.narrative td {
+div.nav tr.active.lac td {
+  background: @lac-color;
+}
+
+div.nav tr.active.mena td {
+  background: @mena-color;
+}
+
+div.nav tr.active.sa td {
+  background: @sa-color;
+}
+
+div.nav tr.active.ssa td {
+  background: @ssa-color;
+}
+
+div.narrative table td {
   text-align: right;
-  vertical-align: top;
+  height: 24px;
 }
 
-div.narrative td.series {
+div.narrative table td.series {
   text-align: left;
 }
 
-div.narrative tr.active td {
+div.narrative table tr.active td {
   color: white;
   font-weight: bold;
 }
@@ -172,21 +178,42 @@ div.narrative tr.active.ssa td {
   background: @ssa-color;
 }
 
-div.nav table.series tr.active td {
-  background: @dim-color;
-  color: white;
+table {
+  border-collapse: separate;
+  border: 1px solid @border-color;
+  border-spacing: 0;
+  border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
+  -webkit-border-radius: @border-radius;
+}
+
+#chart table {
+  border: none;
+}
+
+div.nav table {
+  margin-bottom: 13px;
+  padding: 6px;
+}
+
+div.nav table td {
+  border: 1px solid transparent;
+}
+
+div.nav tr.series.active td {
+  background: #ededed;
+  border: 1px solid @border-color;
 }
 
 div.narrative {
   position: absolute;
   width: 600px;
   left: 1160px;
-  top: 10px;
+  top: 22px;
 }
 
 div.top-message {
   color: #1c72bd;
-  font-family: Georgia,serif;
   font-weight: bold;
   font-size: 36pt;
   text-align: center;
@@ -209,30 +236,68 @@ div.subhead span {
 }
 
 div.table-wrapper {
-  position: absolute;
-  top: 150px;
+  position: relative;
+  top: 14px;
 }
 
-div.table-wrapper h1 { font-size: 20pt; }
-div.table-wrapper h2 { font-size: 16pt; }
+div.narrative table  {
+  margin-top: 28px;
+}
+
+div.narrative table th {
+  border-top: none;
+}
+
+div.narrative table th:first-child, div.narrative table td:first-child {
+  border-left: none;
+}
+
+div.narrative table th:first-child {
+  border-radius: @border-radius 0 0 0;
+  -moz-border-radius: @border-radius 0 0 0;
+  -webkit-border-radius: @border-radius 0 0 0;
+}
+
+div.narrative table th:last-child {
+  border-radius: 0 @border-radius 0 0;
+  -moz-border-radius: 0 @border-radius 0 0;
+  -webkit-border-radius: 0 @border-radius 0 0;
+}
+
+div.narrative table tr:last-child td:first-child {
+  border-radius: 0 0 0 @border-radius;
+  -moz-border-radius: 0 0 0 @border-radius;
+  -webkit-border-radius: 0 0 0 @border-radius;
+}
+
+div.narrative table tr:last-child td:last-child {
+  border-radius: 0 0 @border-radius 0;
+  -moz-border-radius: 0 0 @border-radius 0;
+  -webkit-border-radius: 0 0 @border-radius 0;
+}
 
 div.goal {
-  font-family: Georgia, serif;
-  font-size: 20pt;
-}
-
-div.narrative th {
-  background: #009;
-  color: white;
+  font-size: 14px;
   font-weight: bold;
 }
 
-div.narrative th, div.narrative td {
-  padding: 1px 1em;
+div.narrative table  th {
+  background: @table-cell-shade;
+  font-weight: bold;
+  height: 48px;
 }
 
-div.narrative table.values .series {
-  padding-left: 0.25em;
+div.narrative table th, div.narrative table td {
+  padding: 1px 1em;
+  border-left: 1px solid @border-color;
+  min-width: 3em;
+}
+
+div.narrative table td {
+  border-top: 1px solid @border-color;
+}
+
+div.narrative table .series {
   width: 275px;
 }
 
@@ -242,7 +307,6 @@ div.narrative table.values .series {
 
 div.mdg-target {
   color: @text-color;
-  font-size: 0.75em;
   position: absolute;
   width: 150px;
   text-align: right;
